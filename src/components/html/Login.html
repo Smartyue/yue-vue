@@ -1,0 +1,14 @@
+ <div>
+   <mt-header :title="this.$route.name">
+     <mt-button icon="back" slot="left" @click="this.$globalFunction.goBack">返回</mt-button>
+   </mt-header>
+  <mt-field label="手机号" placeholder="请输入手机号" type="tel" v-model="phone"></mt-field>
+  <mt-field label="验证码" v-model="captcha" placeholder="请输入验证码">
+    <mt-button type="primary" style="width: 100px;" :disabled="captcha_disable" size="small" @click="sendCaptcha">{{ captcha_btn_text }}</mt-button>
+  </mt-field>
+
+   <mt-button type="primary" size="normal" @click="login">登录</mt-button>
+
+
+ </div>
+
