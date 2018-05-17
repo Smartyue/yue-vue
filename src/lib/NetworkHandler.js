@@ -10,9 +10,11 @@ class NetworkHandler{
 
     this._beforeHttpFunc=config._beforeHttpFunc;
     this._afterHttpFunc=config._afterHttpFunc;
+    this.timeout = config.timeout || 5000;
 
-    delete config._beforeHttpFunc
-    delete config._afterHttpFunc
+    delete config._beforeHttpFunc;
+    delete config._afterHttpFunc;
+    delete config.timeout;
 
     config&&Object.keys(config).forEach(k=>networkMaps.set(k,config[k]));
   }
@@ -32,7 +34,7 @@ class NetworkHandler{
     let method=reqConfig.method.toLowerCase();
     let url=reqConfig.url;
 
-    let config={method,url,headers};
+    let config = {method, url, headers, timeout: this.timeout};
     method=='get' && (config.params=para);
     ['post','put','patch'].includes(method) && (config.data=para);
 
@@ -56,7 +58,7 @@ class NetworkHandler{
     try{
       res=await res;
     }catch (e){
-      console.error('====Network Error',JSON.stringify(e));
+      console.error('====Network Error', e);
       res={
         code:'error',
         error:e
