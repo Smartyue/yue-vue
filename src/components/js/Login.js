@@ -4,6 +4,25 @@
 export default {
   methods:{
 
+
+    select_img(event){
+      this.image = event.target.files;
+    },
+
+    async upload_img(){
+      if (this.image == null) {
+        return this.$toast('请选择图片');
+      }
+      let formData = new FormData;
+      for (let i = 0; i < this.image.length; i++) {
+        formData.append(this.image[i].name, this.image[i]);
+      }
+
+      formData.append('msg', '测试')
+      let res = await this.$networkHandler.sendRequest('TEST_UPLOAD', formData, {'Content-Type': 'multipart/form-data'});
+      console.log('====res', res);
+    },
+
     /**
      * 点击获取验证码
      */
@@ -80,10 +99,6 @@ export default {
 
       let res=await this.$networkHandler.sendRequest('LOGIN',{code:this.captcha,phone:this.phone});
 
-
-
-      console.log('====res',res);
-
       let authKey=res.authKey;
       this.$store.commit('UPDATE_AUTH_KEY',authKey);
       this.$router.push('/');
@@ -107,6 +122,7 @@ export default {
       seconds:10,
       tickSecondInterval:null,
       captcha_disable:false,
+      image: null
     }
   }
 }
