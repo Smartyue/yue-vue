@@ -10,5 +10,9 @@
    <mt-button type="primary" size="normal" @click="login">登录</mt-button>
 
 
+   <input type="file" value="选择文件" @change="select_img($event)"
+          accept="image/jpeg,image/jpg,image/gif,image/png">
+
+   <button @click="upload_img">确认上传</button>
  </div>
 
