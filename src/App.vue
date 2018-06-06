@@ -66,9 +66,19 @@ export default {
         console.log('====create WS start====');
         let res=await this.$networkHandler.sendRequest('GET_WS_INFO',{},{'Authorization':'Bearer '+this.$store.getters.authKey});
         console.log('====createWS',res);
-            this.$wsHandler.createWebSocket(res.data,this.$store.getters.authKey,(data)=>{
-              this.$listener.$emit('aaa',data)
-            });
+
+        let wsConfig={
+            url:res.data,
+            token:this.$store.getters.authKey,
+            onMsgFunc:(data)=>{
+                this.$listener.$emit('aaa',data)
+            },
+            heartBeatCommand:'HeartBeatPong',
+            heartCheckTimeout:20000,
+            reconnectTime:5000
+        }
+
+            this.$wsHandler.createWebSocket(wsConfig);
      })
 
 
